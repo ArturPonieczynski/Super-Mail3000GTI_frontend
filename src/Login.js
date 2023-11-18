@@ -1,12 +1,19 @@
 import React, {useState} from "react";
 import {apiUrl} from "./api";
 
-function Login() {
+export function Login() {
 
     const [form, setForm] = useState({
         name: '',
         password: '',
     });
+
+    const updateForm = (key, value) => {
+        setForm(form => ({
+            ...form,
+            [key]: value,
+        }));
+    };
 
     const sendForm = async (event) => {
         event.preventDefault();
@@ -20,13 +27,6 @@ function Login() {
                 ...form,
             }),
         });
-    };
-
-    const updateForm = (key, value) => {
-        setForm(form => ({
-            ...form,
-            [key]: value,
-        }));
     };
 
     return (<>
@@ -57,5 +57,3 @@ function Login() {
         </form>
     </>)
 }
-
-export default Login;
