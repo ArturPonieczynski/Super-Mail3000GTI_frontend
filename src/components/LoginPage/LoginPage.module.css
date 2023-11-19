@@ -1,0 +1,68 @@
+/* Styl głównego kontenera */
+.divContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Pełna wysokość widoku */
+    background-color: #F3D505;
+}
+
+/* Styl formularza */
+.loginForm {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%; /* Odpowiednia szerokość na mózgłych ekranach */
+    max-width: 400px; /* Maksymalna szerokość dla dużych ekranów */
+}
+
+/* Styl inputów i buttona */
+.input,
+.formButton {
+    font-size: 1.2rem;
+    width: 100%; /* Pełna szerokość kontenera formularza */
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Efekt podświetlenia po najechaniu */
+.input:hover,
+.formButton:hover {
+    box-shadow: 0 0 0 2px #F3D505;
+}
+
+/* Styl buttona */
+.formButton {
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+/* Zmiana tła buttona przy najechaniu */
+.formButton:hover {
+    background-color: #e5e5e5;
+    color: #000000;
+}
+
+/* Media queries dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .divContainer {
+        height: auto;
+        min-height: 100vh; /* Zapewnia pełne pokrycie na małych ekranach */
+        padding: 20px; /* Dodaje trochę przestrzeni */
+    }
+
+    .loginForm {
+        width: 100%; /* Pełna szerokość na małych ekranach */
+    }
+
+}
