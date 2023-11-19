@@ -1,10 +1,16 @@
 import './App.css';
-import Login from "./Login";
+import {LoginPage} from "./components/LoginPage/LoginPage";
+import {ToastContainer} from "react-toastify";
+import {Route, Routes} from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
-    return (
-        <Login/>
-    );
+
+export function App() {
+    return (<>
+        <ToastContainer theme="dark" position="top-center"/>
+        <Routes>
+            <Route path='/' element={<LoginPage/>}/>
+            <Route path='/login' element={<LoginPage/>}/>
+        </Routes>
+    </>);
 }
-
-export default App;
