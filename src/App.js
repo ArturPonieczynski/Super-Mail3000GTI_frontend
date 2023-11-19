@@ -4,7 +4,6 @@ import {ToastContainer} from "react-toastify";
 import {Route, Routes} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export function App() {
     return (<>
         <ToastContainer theme="dark" position="top-center"/>
