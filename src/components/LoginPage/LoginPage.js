@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {apiUrl} from "../../api";
+import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import style from "./LoginPage.module.css";
-import logo from "../../img/main512.png";
+import logo from "../../assets/images/main512.png";
 
 export function LoginPage() {
 
