@@ -3,9 +3,9 @@ import {apiUrl} from "../../api";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import style from "./LoginPage.module.css";
-import logo from "../../img/main512.png";
+import logo from "../assets/images/main512.png";
 
-export function LoginPage() {
+export const LoginPage = () => {
 
     const [form, setForm] = useState({
         name: '',
@@ -43,7 +43,7 @@ export function LoginPage() {
             }
 
         } catch (error) {
-            toast.error('Nieprawidłowe dane.');
+            toast.error('Ups... Coś poszło nie tak ! Spróbuj ponownie za jakiś czas.');
             navigate('/login');
         }
     };
@@ -73,4 +73,4 @@ export function LoginPage() {
             <button className={style.formButton} type="submit">Login</button>
         </form>
     </div>)
-}
+};
