@@ -46,7 +46,7 @@ export const MailPage = () => {
             }
             if (result.mailSent) {
                 // setTimeout(() => navigate('/mail'), 5000);
-                toast.info('Wiadomość wysłana.;')
+                toast.info('Wiadomość wysłana.')
             }
 
         } catch (error) {
@@ -120,11 +120,21 @@ export const MailPage = () => {
             <div className={style.divMailContainer}>
                 <label className={style.label}>
                     <span className={style.span}>Data:</span>
-                    <input className={style.input} type="date" name="date"/>
+                    <input
+                        className={style.input}
+                        type="date"
+                        name="date"
+                        onChange={(event) => updateForm('date', event.target.value)}
+                    />
                 </label>
                 <label className={style.label}>
                     <span className={style.span}>Godzina:</span>
-                    <input className={style.input} type="time" name="time"/>
+                    <input
+                        className={style.input}
+                        type="time"
+                        name="time"
+                        onChange={(event) => updateForm('time', event.target.value)}
+                    />
                 </label>
             </div>
             <button className={style.button}>Wyślij mail</button>
