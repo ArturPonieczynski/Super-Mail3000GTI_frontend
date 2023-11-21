@@ -12,10 +12,11 @@ export const MailPage = () => {
         udw: '',
         subject: '',
         text: '',
-        file: '',
         date: '',
         time: '',
     });
+
+    const [file, setFile] = useState(null);
 
     const navigate = useNavigate();
 
@@ -29,13 +30,20 @@ export const MailPage = () => {
     const sendForm = async (event) => {
         event.preventDefault();
 
+        const formData = new FormData();
+
+        const formEntries = Object.entries(form);
+        formEntries.map(([key,value]) => formData.append(key, value));
+        formData.append('file', file);
+
         try {
             const res = await fetch(`${apiUrl}/api/mail`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({...form}),
+                /** Can not add header 'miltipart/form-data' (?) because causing error on backend. */
+                // headers: {
+                //     'Content-Type': 'multipart/form-data',
+                // },
+                body: formData,
             });
 
             const result = await res.json();
@@ -44,13 +52,13 @@ export const MailPage = () => {
                 toast.error(`${result.error}`);
                 return;
             }
-            if (result.mailSent) {
+            if (result.response) {
                 // setTimeout(() => navigate('/mail'), 5000);
-                toast.info('Wiadomość wysłana.')
+                toast.success('Wiadomość wysłana.', {theme: 'colored'})
             }
 
         } catch (error) {
-            toast.error('Coś poszło nie tak.');
+            toast.error('Coś poszło nie tak.', {theme: 'colored'});
             // navigate('/login');
         }
     };
@@ -115,7 +123,12 @@ export const MailPage = () => {
                 ></textarea>
             </label>
                 <p className={style.span}>Dodaj plik</p>
-                <input className={style.input} name="file" type="file"/>
+                <input
+                    className={style.input}
+                    name="file"
+                    type="file"
+                    onChange={(event) => setFile(event.target.files[0])}
+                />
             <p className={style.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
             <div className={style.divMailContainer}>
                 <label className={style.label}>
