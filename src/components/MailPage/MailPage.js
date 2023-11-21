@@ -124,11 +124,27 @@ export const MailPage = () => {
             </label>
                 <p className={style.span}>Dodaj plik</p>
                 <input
+                    id="file"
                     className={style.input}
                     name="file"
                     type="file"
-                    onChange={(event) => setFile(event.target.files[0])}
+                    onChange={(event) => {
+                        setFile(event.target.files[0]);
+                        const x = document.querySelector('#delete');
+                        x.style.toggle = {display: 'none'};
+                    }}
                 />
+            <button
+                id="delete"
+                // style={{display: 'none'}}
+                className={style.input}
+                type="button"
+                onClick={(event) => {
+                const field = document.querySelector('#file');
+                field.value = null;
+            }}>
+                X
+            </button>
             <p className={style.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
             <div className={style.divMailContainer}>
                 <label className={style.label}>
