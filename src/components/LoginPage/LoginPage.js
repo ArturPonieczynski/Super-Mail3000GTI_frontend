@@ -38,7 +38,7 @@ export const LoginPage = () => {
             if (result.error) {
                 toast.error(`${result.error}`);
                 return;
-            } if (result.login) {
+            } if (result.response) {
                 navigate('/mail');
             }
 
