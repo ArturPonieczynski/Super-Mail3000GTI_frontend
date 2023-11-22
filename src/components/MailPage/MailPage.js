@@ -1,8 +1,7 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, {useRef, useState} from "react";
 import {apiUrl} from "../../api";
 import {toast} from "react-toastify";
-import style from "./MailPage.module.css";
+import styles from "./MailPage.module.css";
 
 export const MailPage = () => {
 
@@ -17,8 +16,6 @@ export const MailPage = () => {
     });
 
     const [file, setFile] = useState(null);
-
-    const navigate = useNavigate();
 
     const updateForm = (key, value) => {
         setForm(form => ({
@@ -39,7 +36,7 @@ export const MailPage = () => {
         try {
             const res = await fetch(`${apiUrl}/api/mail`, {
                 method: 'POST',
-                /** Can not add header 'miltipart/form-data' (?) because causing error on backend. */
+                /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                 // headers: {
                 //     'Content-Type': 'multipart/form-data',
                 // },
@@ -63,13 +60,16 @@ export const MailPage = () => {
         }
     };
 
+    const buttonXRef = useRef(null);
+    const buttonFileRef = useRef(null);
+
     return <>
-        <form action="" onSubmit={sendForm} className={style.mailForm}>
-            <div className={style.divMailContainer}>
-                <label className={style.label}>
-                    <span className={style.span}>E-mail:</span>
+        <form action="" onSubmit={sendForm} className={styles.mailForm}>
+            <div className={styles.divMailContainer}>
+                <label className={styles.label}>
+                    <span className={styles.span}>E-mail:</span>
                     <input
-                        className={style.input}
+                        className={styles.input}
                         type="text"
                         name="mailTo"
                         placeholder="example@mail.com"
@@ -77,10 +77,10 @@ export const MailPage = () => {
                         onChange={(event) => updateForm('mailTo', event.target.value)}
                     />
                 </label>
-                <label className={style.label}>
-                    <span className={style.span}>DW:</span>
+                <label className={styles.label}>
+                    <span className={styles.span}>DW:</span>
                     <input
-                        className={style.input}
+                        className={styles.input}
                         type="text"
                         name="dw"
                         placeholder="example@mail.com"
@@ -88,10 +88,10 @@ export const MailPage = () => {
                         onChange={(event) => updateForm('dw', event.target.value)}
                     />
                 </label>
-                <label className={style.label}>
-                    <span className={style.span}>UDW:</span>
+                <label className={styles.label}>
+                    <span className={styles.span}>UDW:</span>
                     <input
-                        className={style.input}
+                        className={styles.input}
                         type="text"
                         name="udw"
                         placeholder="example@mail.com"
@@ -100,10 +100,10 @@ export const MailPage = () => {
                     />
                 </label>
             </div>
-            <label className={style.label}>
-                <span className={style.span}>Temat:</span>
+            <label className={styles.label}>
+                <span className={styles.span}>Temat:</span>
                 <input
-                    className={style.input}
+                    className={styles.input}
                     type="text"
                     name="subject"
                     placeholder="Temat"
@@ -111,10 +111,10 @@ export const MailPage = () => {
                     onChange={(event) => updateForm('subject', event.target.value)}
                     required/>
             </label>
-            <label className={style.label}>
-                <span className={style.span}>Tekst:</span>
+            <label className={styles.label}>
+                <span className={styles.span}>Tekst:</span>
                 <textarea
-                    className={style.textarea}
+                    className={styles.textarea}
                     name="text"
                     rows={10}
                     value={form.text}
@@ -122,51 +122,51 @@ export const MailPage = () => {
                     required
                 ></textarea>
             </label>
-                <p className={style.span}>Dodaj plik</p>
+                <p className={styles.span}>Dodaj plik</p>
                 <input
                     id="file"
-                    className={style.input}
+                    ref={buttonFileRef}
+                    className={styles.input}
                     name="file"
                     type="file"
                     onChange={(event) => {
                         setFile(event.target.files[0]);
-                        const x = document.querySelector('#delete');
-                        x.style.toggle = {display: 'none'};
+                        buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
                     }}
                 />
             <button
-                id="delete"
-                // style={{display: 'none'}}
-                className={style.input}
+                ref={buttonXRef}
+                className={`${styles.input} ${styles.toggleVisible}`}
                 type="button"
-                onClick={(event) => {
-                const field = document.querySelector('#file');
-                field.value = null;
+                onClick={() => {
+                buttonFileRef.current.value = null;
+                setFile(null);
+                buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
             }}>
                 X
             </button>
-            <p className={style.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
-            <div className={style.divMailContainer}>
-                <label className={style.label}>
-                    <span className={style.span}>Data:</span>
+            <p className={styles.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
+            <div className={styles.divMailContainer}>
+                <label className={styles.label}>
+                    <span className={styles.span}>Data:</span>
                     <input
-                        className={style.input}
+                        className={styles.input}
                         type="date"
                         name="date"
                         onChange={(event) => updateForm('date', event.target.value)}
                     />
                 </label>
-                <label className={style.label}>
-                    <span className={style.span}>Godzina:</span>
+                <label className={styles.label}>
+                    <span className={styles.span}>Godzina:</span>
                     <input
-                        className={style.input}
+                        className={styles.input}
                         type="time"
                         name="time"
                         onChange={(event) => updateForm('time', event.target.value)}
                     />
                 </label>
             </div>
-            <button className={style.button}>Wyślij mail</button>
+            <button className={styles.button}>Wyślij mail</button>
         </form>
     </>
 };
