@@ -1,6 +1,7 @@
 /* Styl głównego kontenera */
 .divContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     height: 100vh; /* Pełna wysokość widoku */
@@ -64,5 +65,4 @@
     .loginForm {
         width: 100%; /* Pełna szerokość na małych ekranach */
     }
-
 }
