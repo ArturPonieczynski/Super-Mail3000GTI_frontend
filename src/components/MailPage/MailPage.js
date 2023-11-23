@@ -30,11 +30,11 @@ export const MailPage = () => {
         const formData = new FormData();
 
         const formEntries = Object.entries(form);
-        formEntries.map(([key,value]) => formData.append(key, value));
+        formEntries.map(([key, value]) => formData.append(key, value));
         formData.append('file', file);
 
         try {
-            const res = await fetch(`${apiUrl}/api/mail`, {
+            const resPromise = fetch(`${apiUrl}/api/mail`, {
                 method: 'POST',
                 /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                 // headers: {
@@ -43,6 +43,13 @@ export const MailPage = () => {
                 body: formData,
             });
 
+            toast.promise(resPromise,{
+                pending: 'Wysyłanie...',
+                success: 'Wiadomość wysłana !',
+                error: 'Błąd podczas wysyłania wiadomości.'
+            })
+
+            const res = await resPromise;
             const result = await res.json();
 
             if (result.error) {
@@ -51,7 +58,7 @@ export const MailPage = () => {
             }
             if (result.response) {
                 // setTimeout(() => navigate('/mail'), 5000);
-                toast.success('Wiadomość wysłana.', {theme: 'colored'})
+                // toast.success('Wiadomość wysłana.', {theme: 'colored'})
             }
 
         } catch (error) {
@@ -61,7 +68,7 @@ export const MailPage = () => {
     };
 
     const buttonXRef = useRef(null);
-    const buttonFileRef = useRef(null);
+    const inputFileRef = useRef(null);
 
     return <>
         <form action="" onSubmit={sendForm} className={styles.mailForm}>
@@ -122,27 +129,28 @@ export const MailPage = () => {
                     required
                 ></textarea>
             </label>
-                <p className={styles.span}>Dodaj plik</p>
-                <input
-                    id="file"
-                    ref={buttonFileRef}
-                    className={styles.input}
-                    name="file"
-                    type="file"
-                    onChange={(event) => {
-                        setFile(event.target.files[0]);
-                        buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-                    }}
-                />
+            <p className={styles.span}>Dodaj plik</p>
+            <input
+                id="file"
+                ref={inputFileRef}
+                className={styles.input}
+                name="file"
+                type="file"
+                // value={file} @TODO test later if you can short up code from button X by using value here and how it's going to work with input file.
+                onChange={(event) => {
+                    setFile(event.target.files[0]);
+                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
+                }}
+            />
             <button
                 ref={buttonXRef}
                 className={`${styles.input} ${styles.toggleVisible}`}
                 type="button"
                 onClick={() => {
-                buttonFileRef.current.value = null;
-                setFile(null);
-                buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-            }}>
+                    inputFileRef.current.value = null;
+                    setFile(null);
+                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
+                }}>
                 X
             </button>
             <p className={styles.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
