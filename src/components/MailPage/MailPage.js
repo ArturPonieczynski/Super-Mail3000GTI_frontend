@@ -15,7 +15,7 @@ export const MailPage = () => {
         time: '',
     });
 
-    const [file, setFile] = useState(null);
+    const [fileInput, setFileInput] = useState(null);
 
     const updateForm = (key, value) => {
         setForm(form => ({
@@ -31,7 +31,7 @@ export const MailPage = () => {
 
         const formEntries = Object.entries(form);
         formEntries.map(([key, value]) => formData.append(key, value));
-        formData.append('file', file);
+        formData.append('file', fileInput);
 
         try {
             const resPromise = fetch(`${apiUrl}/api/mail`, {
@@ -131,14 +131,12 @@ export const MailPage = () => {
             </label>
             <p className={styles.span}>Dodaj plik</p>
             <input
-                id="file"
                 ref={inputFileRef}
                 className={styles.input}
                 name="file"
                 type="file"
-                // value={file} @TODO test later if you can short up code from button X by using value here and how it's going to work with input file.
                 onChange={(event) => {
-                    setFile(event.target.files[0]);
+                    setFileInput(event.target.files[0]);
                     buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
                 }}
             />
@@ -148,7 +146,7 @@ export const MailPage = () => {
                 type="button"
                 onClick={() => {
                     inputFileRef.current.value = null;
-                    setFile(null);
+                    setFileInput(null);
                     buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
                 }}>
                 X
