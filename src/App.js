@@ -3,6 +3,7 @@ import {ToastContainer} from "react-toastify";
 import {Route, Routes} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import {MailPage} from "./components/MailPage/MailPage";
+import {Footer} from "./components/Footer/Footer";
 
 export function App() {
     return (<>
@@ -12,5 +13,6 @@ export function App() {
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/mail' element={<MailPage/>}/>
         </Routes>
+        <Footer/>
     </>);
 }
