@@ -1,0 +1,17 @@
+.footer {
+    width: 100vw;
+    height: 25px;
+    background-color: #000000;
+    text-align: center;
+    position: relative;
+    overflow: auto;
+}
+
+.footerContent {
+    padding: 0;
+}
+
+.footerText {
+    color: #ffffff;
+    font-size: 8px;
+}
