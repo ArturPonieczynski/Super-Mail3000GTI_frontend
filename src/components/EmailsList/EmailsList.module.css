@@ -1,0 +1,10 @@
+.checkboxListRecord {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.checkboxListRecord p {
+    margin: 0;
+    padding: 0;
+}

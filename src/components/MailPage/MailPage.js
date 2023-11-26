@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
 import styles from "./MailPage.module.css";
+import {EmailsList} from "../EmailsList/EmailsList";
 
 export const MailPage = () => {
 
@@ -107,6 +108,7 @@ export const MailPage = () => {
                     />
                 </label>
             </div>
+            <EmailsList/>
             <label className={styles.label}>
                 <span className={styles.span}>Temat:</span>
                 <input
