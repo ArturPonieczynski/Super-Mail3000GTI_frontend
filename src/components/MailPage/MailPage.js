@@ -30,7 +30,7 @@ export const MailPage = () => {
         if (isChecked) {
             updateForm('selectedEmails', [...form.selectedEmails, email]);
         } else {
-            updateForm('selectedEmails', form.selectedEmails.filter(e => e !== email));
+            updateForm('selectedEmails', form.selectedEmails.filter(listItem => listItem !== email));
         }
     };
 
