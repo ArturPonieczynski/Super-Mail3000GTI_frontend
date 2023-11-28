@@ -10,6 +10,7 @@ export const MailPage = () => {
         mailTo: '',
         dw: '',
         udw: '',
+        selectedEmails: [],
         subject: '',
         text: '',
         date: '',
@@ -23,6 +24,14 @@ export const MailPage = () => {
             ...form,
             [key]: value,
         }));
+    };
+
+    const handleEmailSelection = (email, isChecked) => {
+        if (isChecked) {
+            updateForm('selectedEmails', [...form.selectedEmails, email]);
+        } else {
+            updateForm('selectedEmails', form.selectedEmails.filter(e => e !== email));
+        }
     };
 
     const sendForm = async (event) => {
@@ -108,7 +117,7 @@ export const MailPage = () => {
                     />
                 </label>
             </div>
-            <EmailsList/>
+            <EmailsList onEmailSelect={handleEmailSelection}/>
             <label className={styles.label}>
                 <span className={styles.span}>Temat:</span>
                 <input
