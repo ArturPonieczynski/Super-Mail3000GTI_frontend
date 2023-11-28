@@ -31,7 +31,7 @@ export const EmailsList = () => {
             <div key={member.id} className={styles.checkboxListRecord}>
                 <input id={member.id} type="checkbox" value={member.email} name={member.email}/>
                 <label htmlFor={member.id}>{member.email}</label>
-                <p>{member.description}</p>
+                <label htmlFor={member.id}>{member.description}</label>
             </div>
         ))}
     </div>
