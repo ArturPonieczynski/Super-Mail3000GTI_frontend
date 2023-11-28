@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
 import styles from "./MailPage.module.css";
+import {EmailsList} from "../EmailsList/EmailsList";
 
 export const MailPage = () => {
 
@@ -9,6 +10,7 @@ export const MailPage = () => {
         mailTo: '',
         dw: '',
         udw: '',
+        selectedEmails: [],
         subject: '',
         text: '',
         date: '',
@@ -22,6 +24,14 @@ export const MailPage = () => {
             ...form,
             [key]: value,
         }));
+    };
+
+    const handleEmailSelection = (email, isChecked) => {
+        if (isChecked) {
+            updateForm('selectedEmails', [...form.selectedEmails, email]);
+        } else {
+            updateForm('selectedEmails', form.selectedEmails.filter(listItem => listItem !== email));
+        }
     };
 
     const sendForm = async (event) => {
@@ -107,6 +117,7 @@ export const MailPage = () => {
                     />
                 </label>
             </div>
+            <EmailsList onEmailSelect={handleEmailSelection}/>
             <label className={styles.label}>
                 <span className={styles.span}>Temat:</span>
                 <input
