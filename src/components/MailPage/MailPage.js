@@ -26,14 +26,38 @@ export const MailPage = () => {
         }));
     };
 
-    const handleEmailSelection = (email, method, isChecked) => {
-        if (isChecked) {
-            updateForm('selectedEmails', [...form.selectedEmails, {email, method}]);
-        } else {
-            updateForm('selectedEmails', form.selectedEmails.filter(listObject => listObject.email !== email));
-        }
-    };
+    // const handleEmailSelection = (email, method, isChecked) => {
+    //     if (isChecked) {
+    //         updateForm('selectedEmails', [...form.selectedEmails, {email, method}]);
+    //     } else {
+    //         updateForm('selectedEmails', form.selectedEmails.filter(listObject => listObject.email !== email));
+    //     }
+    // };
 
+    const handleEmailSelection = (email, method, isChecked) => {
+        setForm((form) => {
+            const existingEmailIndex = form.selectedEmails.findIndex(e => e.email === email);
+            let updatedSelectedEmails = [...form.selectedEmails];
+
+            if (isChecked) {
+                if (existingEmailIndex > -1) {
+                    // Jeśli email już istnieje, aktualizujemy tylko metodę
+                    updatedSelectedEmails[existingEmailIndex] = { email, method };
+                } else {
+                    // Jeśli email nie istnieje, dodajemy go do listy
+                    updatedSelectedEmails.push({ email, method });
+                }
+            } else {
+                // Gdy checkbox jest odznaczony, usuwamy email z listy
+                updatedSelectedEmails = updatedSelectedEmails.filter(e => e.email !== email);
+            }
+
+            return {
+                ...form,
+                selectedEmails: updatedSelectedEmails,
+            };
+        });
+    };
     const sendForm = async (event) => {
         event.preventDefault();
 
