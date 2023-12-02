@@ -35,21 +35,18 @@ export const MailPage = () => {
     // };
 
     const handleEmailSelection = (email, method, isChecked) => {
-        setForm((form) => {
-            const existingEmailIndex = form.selectedEmails.findIndex(e => e.email === email);
+        setForm(form => {
+            const existingEmailIndex = form.selectedEmails.findIndex(obj => obj.email === email);
             let updatedSelectedEmails = [...form.selectedEmails];
 
             if (isChecked) {
                 if (existingEmailIndex > -1) {
-                    // Jeśli email już istnieje, aktualizujemy tylko metodę
                     updatedSelectedEmails[existingEmailIndex] = { email, method };
                 } else {
-                    // Jeśli email nie istnieje, dodajemy go do listy
                     updatedSelectedEmails.push({ email, method });
                 }
             } else {
-                // Gdy checkbox jest odznaczony, usuwamy email z listy
-                updatedSelectedEmails = updatedSelectedEmails.filter(e => e.email !== email);
+                updatedSelectedEmails = updatedSelectedEmails.filter(obj => obj.email !== email);
             }
 
             return {
@@ -63,7 +60,6 @@ export const MailPage = () => {
 
         const formData = new FormData();
 
-
         const formEntries = Object.entries(form);
         formEntries.map(([key, value]) => {
             if (key === 'selectedEmails') {
@@ -73,7 +69,6 @@ export const MailPage = () => {
                 return formData.append(key, value)
             }
         });
-        // formData.append('selectedEmails', JSON.stringify(form.selectedEmails));
         formData.append('file', fileInput);
 
         try {
