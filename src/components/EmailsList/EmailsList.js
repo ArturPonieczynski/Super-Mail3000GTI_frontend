@@ -9,7 +9,7 @@ export const EmailsList = ({onEmailSelect}) => {
     const [selectedValue, setSelectedValue] = useState({});
 
     const handleSelectChange = (memberId, value) => {
-        let email = members.find(member => member.id === memberId).email;
+        let email = selectedValue[memberId].email;
         let newSelectedValue;
 
         if (typeof value === 'boolean') {
@@ -49,7 +49,7 @@ export const EmailsList = ({onEmailSelect}) => {
                 /* result is an array of objects */
                 result.forEach((obj) => {
                     const [key, email] = Object.entries(obj);
-                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'udw'}};
+                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'bcc'}};
                 });
 
                 setSelectedValue(initialList);
