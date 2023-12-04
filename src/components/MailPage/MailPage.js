@@ -26,21 +26,49 @@ export const MailPage = () => {
         }));
     };
 
-    const handleEmailSelection = (email, isChecked) => {
-        if (isChecked) {
-            updateForm('selectedEmails', [...form.selectedEmails, email]);
-        } else {
-            updateForm('selectedEmails', form.selectedEmails.filter(listItem => listItem !== email));
-        }
-    };
+    // const handleEmailSelection = (email, method, isChecked) => {
+    //     if (isChecked) {
+    //         updateForm('selectedEmails', [...form.selectedEmails, {email, method}]);
+    //     } else {
+    //         updateForm('selectedEmails', form.selectedEmails.filter(listObject => listObject.email !== email));
+    //     }
+    // };
 
+    const handleEmailSelection = (email, method, isChecked) => {
+        setForm(form => {
+            const existingEmailIndex = form.selectedEmails.findIndex(obj => obj.email === email);
+            let updatedSelectedEmails = [...form.selectedEmails];
+
+            if (isChecked) {
+                if (existingEmailIndex > -1) {
+                    updatedSelectedEmails[existingEmailIndex] = { email, method };
+                } else {
+                    updatedSelectedEmails.push({ email, method });
+                }
+            } else {
+                updatedSelectedEmails = updatedSelectedEmails.filter(obj => obj.email !== email);
+            }
+
+            return {
+                ...form,
+                selectedEmails: updatedSelectedEmails,
+            };
+        });
+    };
     const sendForm = async (event) => {
         event.preventDefault();
 
         const formData = new FormData();
 
         const formEntries = Object.entries(form);
-        formEntries.map(([key, value]) => formData.append(key, value));
+        formEntries.map(([key, value]) => {
+            if (key === 'selectedEmails') {
+                const stringValue = JSON.stringify(value);
+                return formData.append(key, stringValue);
+            } else {
+                return formData.append(key, value)
+            }
+        });
         formData.append('file', fileInput);
 
         try {
@@ -64,16 +92,10 @@ export const MailPage = () => {
 
             if (result.error) {
                 toast.error(`${result.error}`);
-                return;
-            }
-            if (result.response) {
-                // setTimeout(() => navigate('/mail'), 5000);
-                // toast.success('Wiadomość wysłana.', {theme: 'colored'})
             }
 
         } catch (error) {
             toast.error('Coś poszło nie tak.', {theme: 'colored'});
-            // navigate('/login');
         }
     };
 

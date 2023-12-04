@@ -78,3 +78,7 @@
 .toggleVisible {
     display: none;
 }
+
+.hidden {
+    display: none;
+}
