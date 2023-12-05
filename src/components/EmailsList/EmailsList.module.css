@@ -1,0 +1,16 @@
+.checkboxListRecord {
+    display: flex;
+}
+.checkboxListRecord:nth-child(odd) {
+    background-color: #efefef;
+}
+
+.checkboxListRecord input {
+    margin-bottom: 12px;
+    margin-right: 12px;
+}
+
+.checkboxListRecord label {
+    flex: 1;
+    cursor: pointer;
+}
