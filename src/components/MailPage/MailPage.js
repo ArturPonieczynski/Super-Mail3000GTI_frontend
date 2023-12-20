@@ -51,16 +51,17 @@ export const MailPage = () => {
     const sendForm = async (event) => {
 
         event.preventDefault();
-        if (
-            form.mailTo === '' ||
-            form.dw === '' ||
-            form.udw === '' ||
-            form.selectedEmails === []
-        ) {
-            toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
-            return;
-        }
-        else {
+        // @TODO find solution to handle validation of data sent in email form, need to be at least one email address.
+        // if (
+        //     form.mailTo === '' ||
+        //     form.dw === '' ||
+        //     form.udw === '' ||
+        //     form.selectedEmails === []
+        // ) {
+        //     toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
+        //     return;
+        // }
+        // else {
 
             const formData = new FormData();
             const formEntries = Object.entries(form);
@@ -99,7 +100,7 @@ export const MailPage = () => {
 
             } catch (error) {
                 toast.error('Coś poszło nie tak.', {theme: 'colored'});
-            }
+            // }
 
         }};
 
@@ -161,7 +162,7 @@ export const MailPage = () => {
                     value={form.text}
                     onChange={(event) => updateForm('text', event.target.value)}
                     required
-                ></textarea>
+                />
             </label>
             <p className={styles.span}>Dodaj plik</p>
             <input
