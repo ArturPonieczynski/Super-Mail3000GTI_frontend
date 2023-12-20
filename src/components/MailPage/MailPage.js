@@ -8,8 +8,8 @@ export const MailPage = () => {
 
     const [form, setForm] = useState({
         mailTo: '',
-        dw: '',
-        udw: '',
+        cc: '',
+        bcc: '',
         selectedEmails: [],
         subject: '',
         text: '',
@@ -51,17 +51,13 @@ export const MailPage = () => {
     const sendForm = async (event) => {
 
         event.preventDefault();
-        // @TODO find solution to handle validation of data sent in email form, need to be at least one email address.
-        // if (
-        //     form.mailTo === '' ||
-        //     form.dw === '' ||
-        //     form.udw === '' ||
-        //     form.selectedEmails === []
-        // ) {
-        //     toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
-        //     return;
-        // }
-        // else {
+
+        if (
+            !form.mailTo && !form.cc && !form.bcc && form.selectedEmails.length === 0
+        ) {
+            toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
+        }
+        else {
 
             const formData = new FormData();
             const formEntries = Object.entries(form);
@@ -100,7 +96,7 @@ export const MailPage = () => {
 
             } catch (error) {
                 toast.error('Coś poszło nie tak.', {theme: 'colored'});
-            // }
+            }
 
         }};
 
@@ -123,10 +119,9 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
-                        name="dw"
                         placeholder="example@mail.com"
-                        value={form.dw}
-                        onChange={(event) => updateForm('dw', event.target.value)}
+                        value={form.cc}
+                        onChange={(event) => updateForm('cc', event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
@@ -134,10 +129,9 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
-                        name="udw"
                         placeholder="example@mail.com"
-                        value={form.udw}
-                        onChange={(event) => updateForm('udw', event.target.value)}
+                        value={form.bcc}
+                        onChange={(event) => updateForm('bcc', event.target.value)}
                     />
                 </label>
             </div>
