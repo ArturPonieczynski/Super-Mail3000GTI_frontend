@@ -8,8 +8,8 @@ export const MailPage = () => {
 
     const [form, setForm] = useState({
         mailTo: '',
-        dw: '',
-        udw: '',
+        cc: '',
+        bcc: '',
         selectedEmails: [],
         subject: '',
         text: '',
@@ -51,14 +51,11 @@ export const MailPage = () => {
     const sendForm = async (event) => {
 
         event.preventDefault();
+
         if (
-            form.mailTo === '' ||
-            form.dw === '' ||
-            form.udw === '' ||
-            form.selectedEmails === []
+            !form.mailTo && !form.cc && !form.bcc && form.selectedEmails.length === 0
         ) {
             toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
-            return;
         }
         else {
 
@@ -122,10 +119,9 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
-                        name="dw"
                         placeholder="example@mail.com"
-                        value={form.dw}
-                        onChange={(event) => updateForm('dw', event.target.value)}
+                        value={form.cc}
+                        onChange={(event) => updateForm('cc', event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
@@ -133,10 +129,9 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
-                        name="udw"
                         placeholder="example@mail.com"
-                        value={form.udw}
-                        onChange={(event) => updateForm('udw', event.target.value)}
+                        value={form.bcc}
+                        onChange={(event) => updateForm('bcc', event.target.value)}
                     />
                 </label>
             </div>
@@ -161,7 +156,7 @@ export const MailPage = () => {
                     value={form.text}
                     onChange={(event) => updateForm('text', event.target.value)}
                     required
-                ></textarea>
+                />
             </label>
             <p className={styles.span}>Dodaj plik</p>
             <input

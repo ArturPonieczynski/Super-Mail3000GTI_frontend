@@ -55,7 +55,7 @@ export const LoginPage = () => {
                 className={style.input}
                 type="text"
                 name="name"
-                placeholder="Name"
+                placeholder="Login"
                 maxLength={50}
                 value={form.name}
                 onChange={e => updateForm('name', e.target.value)}
