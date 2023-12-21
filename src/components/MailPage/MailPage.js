@@ -111,7 +111,7 @@ export const MailPage = () => {
                         name="mailTo"
                         placeholder="example@mail.com"
                         value={form.mailTo}
-                        onChange={(event) => updateForm('mailTo', event.target.value)}
+                        onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
@@ -119,9 +119,10 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
+                        name="cc"
                         placeholder="example@mail.com"
                         value={form.cc}
-                        onChange={(event) => updateForm('cc', event.target.value)}
+                        onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
@@ -129,9 +130,10 @@ export const MailPage = () => {
                     <input
                         className={styles.input}
                         type="text"
+                        name="bcc"
                         placeholder="example@mail.com"
                         value={form.bcc}
-                        onChange={(event) => updateForm('bcc', event.target.value)}
+                        onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
             </div>
@@ -144,7 +146,7 @@ export const MailPage = () => {
                     name="subject"
                     placeholder="Temat"
                     value={form.subject}
-                    onChange={(event) => updateForm('subject', event.target.value)}
+                    onChange={(event) => updateForm(event.target.name, event.target.value)}
                     required/>
             </label>
             <label className={styles.label}>
@@ -154,7 +156,7 @@ export const MailPage = () => {
                     name="text"
                     rows={10}
                     value={form.text}
-                    onChange={(event) => updateForm('text', event.target.value)}
+                    onChange={event => updateForm(event.target.name, event.target.value)}
                     required
                 />
             </label>
@@ -164,7 +166,7 @@ export const MailPage = () => {
                 className={styles.input}
                 name="file"
                 type="file"
-                onChange={(event) => {
+                onChange={event => {
                     setFileInput(event.target.files[0]);
                     buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
                 }}
@@ -188,7 +190,7 @@ export const MailPage = () => {
                         className={styles.input}
                         type="date"
                         name="date"
-                        onChange={(event) => updateForm('date', event.target.value)}
+                        onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
@@ -197,7 +199,7 @@ export const MailPage = () => {
                         className={styles.input}
                         type="time"
                         name="time"
-                        onChange={(event) => updateForm('time', event.target.value)}
+                        onChange={(event) => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
             </div>
