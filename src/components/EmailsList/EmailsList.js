@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import styles from "./EmailsList.module.css";
 import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
+import styles from "./EmailsList.module.css";
 
 export const EmailsList = ({onEmailSelect}) => {
 
@@ -54,7 +54,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
                 setSelectedValue(initialList);
             } catch (error) {
-                toast.error('Błąd ładowania książki adresów', {theme: 'colored'});
+                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
                 console.error(error);
             }
         };
