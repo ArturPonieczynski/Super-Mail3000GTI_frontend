@@ -54,7 +54,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
                 setSelectedValue(initialList);
             } catch (error) {
-                toast.error('Błąd ładowania książki adresów', {theme: 'colored'});
+                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
                 console.error(error);
             }
         };
