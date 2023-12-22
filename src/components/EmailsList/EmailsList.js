@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import styles from "./EmailsList.module.css";
 import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
+import styles from "./EmailsList.module.css";
 
 export const EmailsList = ({onEmailSelect}) => {
 

@@ -13,6 +13,7 @@ export const MailPage = () => {
         selectedEmails: [],
         subject: '',
         text: '',
+        emailFooter: '',
         date: '',
         time: '',
     });
@@ -26,7 +27,6 @@ export const MailPage = () => {
             ...form,
             [key]: value,
         }));
-
     };
     const handleEmailSelection = (email, method, isChecked) => {
         setForm(form => {
@@ -158,6 +158,12 @@ export const MailPage = () => {
                     value={form.text}
                     onChange={event => updateForm(event.target.name, event.target.value)}
                     required
+                />
+                <textarea
+                className={styles.textarea}
+                name="emailFooter"
+                value={form.emailFooter}
+                onChange={event => updateForm(event.target.name, event.target.value)}
                 />
             </label>
             <p className={styles.span}>Dodaj plik</p>
