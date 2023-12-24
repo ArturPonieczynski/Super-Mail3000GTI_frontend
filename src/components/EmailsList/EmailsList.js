@@ -1,12 +1,53 @@
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
+import {RotatingLines} from "react-loader-spinner";
 import styles from "./EmailsList.module.css";
 
 export const EmailsList = ({onEmailSelect}) => {
 
     const [members, setMembers] = useState([]);
     const [selectedValue, setSelectedValue] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const res = await fetch(`${apiUrl}/api/mail/all`, {
+                    method: 'GET',
+                });
+                const result = await res.json();
+                setMembers(result);
+
+                let initialList = {};
+
+                /* result is an array of objects */
+                result.forEach((obj) => {
+                    const [key, email] = Object.entries(obj);
+                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'bcc'}};
+                });
+
+                setSelectedValue(initialList);
+            } catch (error) {
+                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMembers();
+    }, []);
+
+    if (loading) {
+        return <div style={{margin: '0 calc(50% - 32px)'}}>
+            <RotatingLines
+                width='64'
+                strokeColor='#555'
+                strokeWidth='4'
+            />
+        </div>
+    }
 
     const handleSelectChange = (memberId, value) => {
         let email = selectedValue[memberId].email;
@@ -34,33 +75,6 @@ export const EmailsList = ({onEmailSelect}) => {
         const { method, isChecked } = newSelectedValue[memberId];
         onEmailSelect(email, method, isChecked);
     };
-
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const res = await fetch(`${apiUrl}/api/mail/all`, {
-                    method: 'GET',
-                });
-                const result = await res.json();
-                setMembers(result);
-
-                let initialList = {};
-
-                /* result is an array of objects */
-                result.forEach((obj) => {
-                    const [key, email] = Object.entries(obj);
-                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'bcc'}};
-                });
-
-                setSelectedValue(initialList);
-            } catch (error) {
-                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
-                console.error(error);
-            }
-        };
-
-        fetchMembers();
-    }, []);
 
     return <>
         {members.map((member) => (
