@@ -84,7 +84,7 @@ export const EmailsList = ({onEmailSelect}) => {
                     type="checkbox"
                     onChange={event => handleSelectChange(member.id, event.target.checked)}
                 />
-                <label htmlFor={member.id}>{member.email}</label>
+                <label htmlFor={member.id} className={styles.emailLabel}>{member.email}</label>
                 <label htmlFor={member.id}>{member.description}</label>
                 <select
                     value={selectedValue[member.id].method}
