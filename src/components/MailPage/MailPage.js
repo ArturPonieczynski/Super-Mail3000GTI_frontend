@@ -3,6 +3,7 @@ import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
 import {EmailsList} from "../EmailsList/EmailsList";
 import {emailFooterTemplate} from "../../config/config";
+import {validateEmails} from "../../utils/emailValidation";
 
 import styles from "./MailPage.module.css";
 
@@ -37,9 +38,9 @@ export const MailPage = () => {
             let updatedSelectedEmails = [...form.selectedEmails];
             if (isChecked) {
                 if (existingEmailIndex > -1) {
-                    updatedSelectedEmails[existingEmailIndex] = { email, method };
+                    updatedSelectedEmails[existingEmailIndex] = {email, method};
                 } else {
-                    updatedSelectedEmails.push({ email, method });
+                    updatedSelectedEmails.push({email, method});
                 }
             } else {
                 updatedSelectedEmails = updatedSelectedEmails.filter(obj => obj.email !== email);
@@ -55,11 +56,23 @@ export const MailPage = () => {
         event.preventDefault();
 
         if (
-            !form.mailTo && !form.cc && !form.bcc && form.selectedEmails.length === 0
+            !form.mailTo &&
+            !form.cc &&
+            !form.bcc &&
+            form.selectedEmails.length === 0
         ) {
             toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
-        }
-        else {
+        } else if (
+            (!(validateEmails(form.mailTo).valid) && !(form.mailTo === '')) ||
+            (!(validateEmails(form.cc).valid) && !(form.cc === '')) ||
+            (!(validateEmails(form.bcc).valid) && !(form.bcc === ''))
+            ) {
+            toast.error(`Podano nieprawidłowy adres e-mail: "${
+                (validateEmails(form.mailTo).invalidEmails)[0] ||
+                (validateEmails(form.cc).invalidEmails)[0] ||
+                (validateEmails(form.bcc).invalidEmails)[0]
+            }"`, {autoClose: false});
+        } else {
 
             const formData = new FormData();
             const formEntries = Object.entries(form);
@@ -83,7 +96,7 @@ export const MailPage = () => {
                     body: formData,
                 });
 
-                toast.promise(resPromise, {
+                await toast.promise(resPromise, {
                     pending: 'Wysyłanie...',
                     success: 'Wiadomość wysłana !',
                     error: 'Błąd podczas wysyłania wiadomości.'
@@ -99,8 +112,8 @@ export const MailPage = () => {
             } catch (error) {
                 toast.error('Coś poszło nie tak.', {theme: 'colored'});
             }
-
-        }};
+        }
+    };
 
     return <>
         <form action="" onSubmit={sendForm} className={styles.mailForm}>
@@ -111,7 +124,8 @@ export const MailPage = () => {
                         className={styles.input}
                         type="text"
                         name="mailTo"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
                         value={form.mailTo}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -122,7 +136,8 @@ export const MailPage = () => {
                         className={styles.input}
                         type="text"
                         name="cc"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
                         value={form.cc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -133,7 +148,8 @@ export const MailPage = () => {
                         className={styles.input}
                         type="text"
                         name="bcc"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
                         value={form.bcc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -162,10 +178,10 @@ export const MailPage = () => {
                     required
                 />
                 <textarea
-                className={styles.textarea}
-                name="emailFooter"
-                value={form.emailFooter}
-                onChange={event => updateForm(event.target.name, event.target.value)}
+                    className={styles.textarea}
+                    name="emailFooter"
+                    value={form.emailFooter}
+                    onChange={event => updateForm(event.target.name, event.target.value)}
                 />
             </label>
             <p className={styles.span}>Dodaj plik</p>
