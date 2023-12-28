@@ -11,15 +11,15 @@ export const EmailsList = ({onEmailSelect}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchMembers = async () => {
+        (async () => {
             try {
-                const res = await fetch(`${apiUrl}/api/mail/all`, {
+                const fetchMembers = await fetch(`${apiUrl}/api/mail/all`, {
                     method: 'GET',
                 });
-                const result = await res.json();
+                const result = await fetchMembers.json();
 
                 if (result.error) {
-                    return toast.warning(result.error);
+                    return toast.warning(result.error, {autoClose: 8000});
                 }
 
                 setMembers(result);
@@ -33,15 +33,10 @@ export const EmailsList = ({onEmailSelect}) => {
                 });
 
                 setSelectedValue(initialList);
-            } catch (error) {
-                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
-                console.error(error);
             } finally {
                 setLoading(false);
             }
-        };
-
-        fetchMembers();
+        })();
     }, []);
 
     if (loading) {
@@ -102,4 +97,4 @@ export const EmailsList = ({onEmailSelect}) => {
             </div>
         ))}
     </>
-}
+};
