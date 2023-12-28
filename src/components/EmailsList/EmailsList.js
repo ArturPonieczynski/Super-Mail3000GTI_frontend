@@ -17,6 +17,11 @@ export const EmailsList = ({onEmailSelect}) => {
                     method: 'GET',
                 });
                 const result = await res.json();
+
+                if (result.error) {
+                    return toast.warning(result.error);
+                }
+
                 setMembers(result);
 
                 let initialList = {};
