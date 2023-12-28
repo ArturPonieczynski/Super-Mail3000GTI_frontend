@@ -5,9 +5,9 @@ import {EmailsList} from "../EmailsList/EmailsList";
 import {emailFooterTemplate} from "../../config/config";
 import {validateEmails} from "../../utils/emailValidation";
 
-import styles from "./MailPage.module.css";
+import styles from "./EmailFormPage.module.css";
 
-export const MailPage = () => {
+export const EmailFormPage = () => {
 
     const [form, setForm] = useState({
         mailTo: '',
@@ -63,9 +63,9 @@ export const MailPage = () => {
         ) {
             toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
         } else if (
-            (!(validateEmails(form.mailTo).valid) && !(form.mailTo === '')) ||
-            (!(validateEmails(form.cc).valid) && !(form.cc === '')) ||
-            (!(validateEmails(form.bcc).valid) && !(form.bcc === ''))
+            (!(validateEmails(form.mailTo).valid) && form.mailTo) ||
+            (!(validateEmails(form.cc).valid) && form.cc) ||
+            (!(validateEmails(form.bcc).valid) && form.bcc)
             ) {
             toast.error(`Podano nieprawidłowy adres e-mail: "${
                 (validateEmails(form.mailTo).invalidEmails)[0] ||
@@ -87,7 +87,7 @@ export const MailPage = () => {
 
             formData.append('file', fileInput);
             try {
-                const resPromise = fetch(`${apiUrl}/api/mail`, {
+                const sendEmailApiPromise = fetch(`${apiUrl}/api/mail`, {
                     method: 'POST',
                     /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                     // headers: {
@@ -96,13 +96,13 @@ export const MailPage = () => {
                     body: formData,
                 });
 
-                await toast.promise(resPromise, {
+                await toast.promise(sendEmailApiPromise, {
                     pending: 'Wysyłanie...',
                     success: 'Wiadomość wysłana !',
                     error: 'Błąd podczas wysyłania wiadomości.'
                 })
 
-                const res = await resPromise;
+                const res = await sendEmailApiPromise;
                 const result = await res.json();
 
                 if (result.error) {
