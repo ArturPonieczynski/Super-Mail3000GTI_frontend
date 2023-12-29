@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {apiUrl} from "../../config/api";
-import {toast} from "react-toastify";
+import {defaultEmailSendMethod} from "../../config/config";
 import {RotatingLines} from "react-loader-spinner";
+import {toast} from "react-toastify";
+
 import styles from "./EmailsList.module.css";
 
 export const EmailsList = ({onEmailSelect}) => {
@@ -11,6 +13,7 @@ export const EmailsList = ({onEmailSelect}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         (async () => {
             try {
                 const fetchMembers = await fetch(`${apiUrl}/api/mail/all`, {
@@ -29,7 +32,13 @@ export const EmailsList = ({onEmailSelect}) => {
                 /* result is an array of objects */
                 result.forEach((obj) => {
                     const [key, email] = Object.entries(obj);
-                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'bcc'}};
+                    initialList = {
+                        ...initialList,
+                        [key[1]]: {
+                            email:email[1],
+                            method: defaultEmailSendMethod
+                        }
+                    };
                 });
 
                 setSelectedValue(initialList);
@@ -77,7 +86,7 @@ export const EmailsList = ({onEmailSelect}) => {
     };
 
     return <>
-        {members.map((member) => (
+        {members.map(member => (
             <div key={member.id} className={styles.checkboxListRecord}>
                 <input
                     id={member.id}
