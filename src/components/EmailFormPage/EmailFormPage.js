@@ -117,9 +117,9 @@ export const EmailFormPage = () => {
 
     return (
         <form action="" onSubmit={sendForm} className={styles.mailForm}>
-            <div className={styles.divMailContainer}>
+            <div className={styles.inputsContainer}>
                 <label className={styles.label}>
-                    <span className={styles.span}>E-mail:</span>
+                    <p className={styles.paragraph}>E-mail:</p>
                     <input
                         className={styles.input}
                         type="text"
@@ -131,7 +131,7 @@ export const EmailFormPage = () => {
                     />
                 </label>
                 <label className={styles.label}>
-                    <span className={styles.span}>DW:</span>
+                    <p className={styles.paragraph}>DW:</p>
                     <input
                         className={styles.input}
                         type="text"
@@ -143,7 +143,7 @@ export const EmailFormPage = () => {
                     />
                 </label>
                 <label className={styles.label}>
-                    <span className={styles.span}>UDW:</span>
+                    <p className={styles.paragraph}>UDW:</p>
                     <input
                         className={styles.input}
                         type="text"
@@ -157,7 +157,7 @@ export const EmailFormPage = () => {
             </div>
             <EmailsList onEmailSelect={handleEmailSelection}/>
             <label className={styles.label}>
-                <span className={styles.span}>Temat:</span>
+                <p className={styles.paragraph}>Temat:</p>
                 <input
                     className={styles.input}
                     type="text"
@@ -168,7 +168,7 @@ export const EmailFormPage = () => {
                     required/>
             </label>
             <label className={styles.label}>
-                <span className={styles.span}>Tekst:</span>
+                <p className={styles.paragraph}>Tekst:</p>
                 <textarea
                     className={styles.textarea}
                     name="text"
@@ -184,48 +184,52 @@ export const EmailFormPage = () => {
                     onChange={event => updateForm(event.target.name, event.target.value)}
                 />
             </label>
-            <p className={styles.span}>Dodaj plik</p>
-            <input
-                ref={inputFileRef}
-                className={styles.input}
-                name="file"
-                type="file"
-                onChange={event => {
-                    setFileInput(event.target.files[0]);
-                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-                }}
-            />
-            <button
-                ref={buttonXRef}
-                className={`${styles.input} ${styles.toggleVisible}`}
-                type="button"
-                onClick={() => {
-                    inputFileRef.current.value = null;
-                    setFileInput(null);
-                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-                }}>
-                X
-            </button>
-            <p className={styles.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
-            <div className={styles.divMailContainer}>
-                <label className={styles.label}>
-                    <span className={styles.span}>Data:</span>
-                    <input
-                        className={styles.input}
-                        type="date"
-                        name="date"
-                        onChange={event => updateForm(event.target.name, event.target.value)}
-                    />
-                </label>
-                <label className={styles.label}>
-                    <span className={styles.span}>Godzina:</span>
-                    <input
-                        className={styles.input}
-                        type="time"
-                        name="time"
-                        onChange={(event) => updateForm(event.target.name, event.target.value)}
-                    />
-                </label>
+            <div className={styles.coloredBox}>
+                <p className={styles.paragraph}>Dodaj plik</p>
+                <input
+                    ref={inputFileRef}
+                    className={styles.input}
+                    name="file"
+                    type="file"
+                    onChange={event => {
+                        setFileInput(event.target.files[0]);
+                        buttonXRef.current.classList.toggle(`${styles.toggleVisibility}`);
+                    }}
+                />
+                <button
+                    ref={buttonXRef}
+                    className={`${styles.input} ${styles.toggleVisibility}`}
+                    type="button"
+                    onClick={() => {
+                        inputFileRef.current.value = null;
+                        setFileInput(null);
+                        buttonXRef.current.classList.toggle(`${styles.toggleVisibility}`);
+                    }}>
+                    X
+                </button>
+            </div>
+            <div className={styles.coloredBox}>
+                <p className={styles.paragraph}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
+                <div className={styles.inputsContainer}>
+                    <label className={styles.label}>
+                        <p className={styles.paragraph}>Data:</p>
+                        <input
+                            className={styles.input}
+                            type="date"
+                            name="date"
+                            onChange={event => updateForm(event.target.name, event.target.value)}
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        <p className={styles.paragraph}>Godzina:</p>
+                        <input
+                            className={styles.input}
+                            type="time"
+                            name="time"
+                            onChange={(event) => updateForm(event.target.name, event.target.value)}
+                        />
+                    </label>
+                </div>
             </div>
             <button className={styles.button}>Wyślij mail</button>
         </form>
