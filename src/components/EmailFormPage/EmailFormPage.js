@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import {apiUrl} from "../../config/api";
-import {toast} from "react-toastify";
 import {EmailsList} from "../EmailsList/EmailsList";
 import {emailFooterTemplate} from "../../config/config";
+import {toast} from "react-toastify";
 import {validateEmails} from "../../utils/emailValidation";
 
 import styles from "./EmailFormPage.module.css";
@@ -66,7 +66,7 @@ export const EmailFormPage = () => {
             (!(validateEmails(form.mailTo).valid) && form.mailTo) ||
             (!(validateEmails(form.cc).valid) && form.cc) ||
             (!(validateEmails(form.bcc).valid) && form.bcc)
-            ) {
+        ) {
             toast.error(`Podano nieprawidłowy adres e-mail: "${
                 (validateEmails(form.mailTo).invalidEmails)[0] ||
                 (validateEmails(form.cc).invalidEmails)[0] ||
@@ -106,7 +106,7 @@ export const EmailFormPage = () => {
                 const result = await res.json();
 
                 if (result.error) {
-                    toast.error(`${result.error}`);
+                    toast.error(`${result.error}`, {autoClose: 8000});
                 }
 
             } catch (error) {
@@ -115,7 +115,7 @@ export const EmailFormPage = () => {
         }
     };
 
-    return <>
+    return (
         <form action="" onSubmit={sendForm} className={styles.mailForm}>
             <div className={styles.divMailContainer}>
                 <label className={styles.label}>
@@ -229,5 +229,5 @@ export const EmailFormPage = () => {
             </div>
             <button className={styles.button}>Wyślij mail</button>
         </form>
-    </>
+    )
 };
