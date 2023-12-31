@@ -35,7 +35,7 @@ export const EmailsList = ({onEmailSelect}) => {
                     initialList = {
                         ...initialList,
                         [key[1]]: {
-                            email:email[1],
+                            email: email[1],
                             method: defaultEmailSendMethod
                         }
                     };
@@ -49,7 +49,7 @@ export const EmailsList = ({onEmailSelect}) => {
     }, []);
 
     if (loading) {
-        return <div style={{margin: '0 calc(50% - 32px)'}}>
+        return <div style={{textAlign: 'center',}}>
             <RotatingLines
                 width='64'
                 strokeColor='#555'
@@ -81,7 +81,7 @@ export const EmailsList = ({onEmailSelect}) => {
         }
 
         setSelectedValue(newSelectedValue);
-        const { method, isChecked } = newSelectedValue[memberId];
+        const {method, isChecked} = newSelectedValue[memberId];
         onEmailSelect(email, method, isChecked);
     };
 
