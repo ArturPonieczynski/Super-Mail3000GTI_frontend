@@ -1,7 +1,6 @@
 import React, {useRef, useState} from "react";
-import {apiUrl} from "../../config/api";
+import {config} from "../../config/config";
 import {EmailsList} from "../EmailsList/EmailsList";
-import {emailFooterTemplate} from "../../config/config";
 import {toast} from "react-toastify";
 import {validateEmails} from "../../utils/emailValidation";
 
@@ -16,7 +15,7 @@ export const EmailFormPage = () => {
         selectedEmails: [],
         subject: '',
         text: '',
-        emailFooter: 'Pozdrawiam\n' + emailFooterTemplate,
+        emailFooter: 'Pozdrawiam\n' + config.emailFooterTemplate,
         date: '',
         time: '',
     });
@@ -87,7 +86,7 @@ export const EmailFormPage = () => {
 
             formData.append('file', fileInput);
             try {
-                const sendEmailApiPromise = fetch(`${apiUrl}/api/mail`, {
+                const sendEmailApiPromise = fetch(`${config.apiUrl}/api/mail`, {
                     method: 'POST',
                     /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                     // headers: {

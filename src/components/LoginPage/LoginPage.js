@@ -1,6 +1,6 @@
 import React, {useState} from "react";
+import {config} from "../../config/config";
 import {useNavigate} from "react-router-dom";
-import {apiUrl} from "../../config/api";
 import {toast} from "react-toastify";
 import {FullScreenLoadingBlur} from "../FullScreenLoadingBlur/FullScreenLoadingBlur";
 
@@ -34,7 +34,7 @@ export const LoginPage = () => {
         setLoading(true);
 
         try {
-            const loginResponse = await fetch(`${apiUrl}/api/login`, {
+            const loginResponse = await fetch(`${config.apiUrl}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

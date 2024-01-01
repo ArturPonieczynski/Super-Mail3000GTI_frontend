@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {apiUrl} from "../../config/api";
-import {defaultEmailSendMethod} from "../../config/config";
+import {config} from "../../config/config";
 import {RotatingLines} from "react-loader-spinner";
 import {toast} from "react-toastify";
 
@@ -16,7 +15,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
         (async () => {
             try {
-                const fetchMembers = await fetch(`${apiUrl}/api/mail/all`, {
+                const fetchMembers = await fetch(`${config.apiUrl}/api/mail/all`, {
                     method: 'GET',
                 });
                 const result = await fetchMembers.json();
@@ -36,7 +35,7 @@ export const EmailsList = ({onEmailSelect}) => {
                         ...initialList,
                         [key[1]]: {
                             email: email[1],
-                            method: defaultEmailSendMethod
+                            method: config.defaultEmailSendMethod,
                         }
                     };
                 });
