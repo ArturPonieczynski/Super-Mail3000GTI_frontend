@@ -86,7 +86,7 @@ export const EmailFormPage = () => {
 
             formData.append('file', fileInput);
             try {
-                const sendEmailApiPromise = fetch(`${config.apiUrl}/api/mail`, {
+                const sendEmailApiPromise = fetch(`${config.apiUrl}/api/email`, {
                     method: 'POST',
                     /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                     // headers: {

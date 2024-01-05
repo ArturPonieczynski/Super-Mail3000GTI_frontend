@@ -15,7 +15,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
         (async () => {
             try {
-                const fetchMembers = await fetch(`${config.apiUrl}/api/mail/all`, {
+                const fetchMembers = await fetch(`${config.apiUrl}/api/email/all`, {
                     method: 'GET',
                 });
                 const result = await fetchMembers.json();
