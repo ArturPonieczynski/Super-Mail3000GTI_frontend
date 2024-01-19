@@ -30,11 +30,11 @@ export const EmailsList = ({onEmailSelect}) => {
 
                 /* result is an array of objects */
                 result.forEach((obj) => {
-                    const [key, email] = Object.entries(obj);
+                    const [key, email] = Object.values(obj);
                     initialList = {
                         ...initialList,
-                        [key[1]]: {
-                            email: email[1],
+                        [key]: {
+                            email,
                             method: config.defaultEmailSendMethod,
                         }
                     };
