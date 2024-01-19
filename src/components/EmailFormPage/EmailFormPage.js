@@ -124,7 +124,7 @@ export const EmailFormPage = () => {
                         type="text"
                         name="mailTo"
                         placeholder="example@email.com"
-                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.mailTo}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -136,7 +136,7 @@ export const EmailFormPage = () => {
                         type="text"
                         name="cc"
                         placeholder="example@email.com"
-                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.cc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -148,7 +148,7 @@ export const EmailFormPage = () => {
                         type="text"
                         name="bcc"
                         placeholder="example@email.com"
-                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem.Przykład:\nexample@email.com, test@email.com"}
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.bcc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
