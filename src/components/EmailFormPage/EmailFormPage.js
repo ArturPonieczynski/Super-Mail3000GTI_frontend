@@ -95,7 +95,7 @@ export const EmailFormPage = () => {
                     body: formData,
                 });
 
-                await toast.promise(sendEmailApiPromise, {
+                toast.promise(sendEmailApiPromise, {
                     pending: 'Wysyłanie...',
                     success: 'Wiadomość wysłana !',
                     error: 'Błąd podczas wysyłania wiadomości.'
