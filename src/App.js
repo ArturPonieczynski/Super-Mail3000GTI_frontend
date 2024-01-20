@@ -2,7 +2,7 @@ import {LoginPage} from "./components/LoginPage/LoginPage";
 import {ToastContainer} from "react-toastify";
 import {Route, Routes} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
-import {MailPage} from "./components/MailPage/MailPage";
+import {EmailFormPage} from "./components/EmailFormPage/EmailFormPage";
 import {Footer} from "./components/Footer/Footer";
 
 export function App() {
@@ -11,7 +11,7 @@ export function App() {
         <Routes>
             <Route path='/' element={<LoginPage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
-            <Route path='/mail' element={<MailPage/>}/>
+            <Route path='/mail' element={<EmailFormPage/>}/>
         </Routes>
         <Footer/>
     </>);

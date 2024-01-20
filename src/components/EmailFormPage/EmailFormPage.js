@@ -1,12 +1,12 @@
 import React, {useRef, useState} from "react";
-import {apiUrl} from "../../config/api";
-import {toast} from "react-toastify";
+import {config} from "../../config/config";
 import {EmailsList} from "../EmailsList/EmailsList";
-import {emailFooterTemplate} from "../../config/config";
+import {toast} from "react-toastify";
+import {validateEmails} from "../../utils/emailValidation";
 
-import styles from "./MailPage.module.css";
+import styles from "./EmailFormPage.module.css";
 
-export const MailPage = () => {
+export const EmailFormPage = () => {
 
     const [form, setForm] = useState({
         mailTo: '',
@@ -15,7 +15,7 @@ export const MailPage = () => {
         selectedEmails: [],
         subject: '',
         text: '',
-        emailFooter: 'Pozdrawiam\n' + emailFooterTemplate,
+        emailFooter: 'Pozdrawiam\n' + config.emailFooterTemplate,
         date: '',
         time: '',
     });
@@ -37,9 +37,9 @@ export const MailPage = () => {
             let updatedSelectedEmails = [...form.selectedEmails];
             if (isChecked) {
                 if (existingEmailIndex > -1) {
-                    updatedSelectedEmails[existingEmailIndex] = { email, method };
+                    updatedSelectedEmails[existingEmailIndex] = {email, method};
                 } else {
-                    updatedSelectedEmails.push({ email, method });
+                    updatedSelectedEmails.push({email, method});
                 }
             } else {
                 updatedSelectedEmails = updatedSelectedEmails.filter(obj => obj.email !== email);
@@ -55,11 +55,23 @@ export const MailPage = () => {
         event.preventDefault();
 
         if (
-            !form.mailTo && !form.cc && !form.bcc && form.selectedEmails.length === 0
+            !form.mailTo &&
+            !form.cc &&
+            !form.bcc &&
+            form.selectedEmails.length === 0
         ) {
             toast.warning('Wypełnij lub wybierz choć jednego adresata.', {autoClose: 8000});
-        }
-        else {
+        } else if (
+            (!(validateEmails(form.mailTo).valid) && form.mailTo) ||
+            (!(validateEmails(form.cc).valid) && form.cc) ||
+            (!(validateEmails(form.bcc).valid) && form.bcc)
+        ) {
+            toast.error(`Podano nieprawidłowy adres e-mail: "${
+                (validateEmails(form.mailTo).invalidEmails)[0] ||
+                (validateEmails(form.cc).invalidEmails)[0] ||
+                (validateEmails(form.bcc).invalidEmails)[0]
+            }"`, {autoClose: false});
+        } else {
 
             const formData = new FormData();
             const formEntries = Object.entries(form);
@@ -74,7 +86,7 @@ export const MailPage = () => {
 
             formData.append('file', fileInput);
             try {
-                const resPromise = fetch(`${apiUrl}/api/mail`, {
+                const sendEmailApiPromise = fetch(`${config.apiUrl}/api/email`, {
                     method: 'POST',
                     /** Can not add header 'multipart/form-data' (?) because causing error on backend. */
                     // headers: {
@@ -83,57 +95,60 @@ export const MailPage = () => {
                     body: formData,
                 });
 
-                toast.promise(resPromise, {
+                toast.promise(sendEmailApiPromise, {
                     pending: 'Wysyłanie...',
                     success: 'Wiadomość wysłana !',
                     error: 'Błąd podczas wysyłania wiadomości.'
                 })
 
-                const res = await resPromise;
+                const res = await sendEmailApiPromise;
                 const result = await res.json();
 
                 if (result.error) {
-                    toast.error(`${result.error}`);
+                    toast.error(`${result.error}`, {autoClose: 8000});
                 }
 
             } catch (error) {
                 toast.error('Coś poszło nie tak.', {theme: 'colored'});
             }
+        }
+    };
 
-        }};
-
-    return <>
+    return (
         <form action="" onSubmit={sendForm} className={styles.mailForm}>
-            <div className={styles.divMailContainer}>
+            <div className={styles.inputsContainer}>
                 <label className={styles.label}>
-                    <span className={styles.span}>E-mail:</span>
+                    <p className={styles.paragraph}>E-mail:</p>
                     <input
                         className={styles.input}
                         type="text"
                         name="mailTo"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.mailTo}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
-                    <span className={styles.span}>DW:</span>
+                    <p className={styles.paragraph}>DW:</p>
                     <input
                         className={styles.input}
                         type="text"
                         name="cc"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.cc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
                 </label>
                 <label className={styles.label}>
-                    <span className={styles.span}>UDW:</span>
+                    <p className={styles.paragraph}>UDW:</p>
                     <input
                         className={styles.input}
                         type="text"
                         name="bcc"
-                        placeholder="example@mail.com"
+                        placeholder="example@email.com"
+                        title={"Możesz wprowadzić kilka adresów jednocześnie oddzielonych od siebie przecinkiem. Przykład:\nexample@email.com, test@email.com"}
                         value={form.bcc}
                         onChange={event => updateForm(event.target.name, event.target.value)}
                     />
@@ -141,7 +156,7 @@ export const MailPage = () => {
             </div>
             <EmailsList onEmailSelect={handleEmailSelection}/>
             <label className={styles.label}>
-                <span className={styles.span}>Temat:</span>
+                <p className={styles.paragraph}>Temat:</p>
                 <input
                     className={styles.input}
                     type="text"
@@ -152,7 +167,7 @@ export const MailPage = () => {
                     required/>
             </label>
             <label className={styles.label}>
-                <span className={styles.span}>Tekst:</span>
+                <p className={styles.paragraph}>Tekst:</p>
                 <textarea
                     className={styles.textarea}
                     name="text"
@@ -162,56 +177,60 @@ export const MailPage = () => {
                     required
                 />
                 <textarea
-                className={styles.textarea}
-                name="emailFooter"
-                value={form.emailFooter}
-                onChange={event => updateForm(event.target.name, event.target.value)}
+                    className={styles.textarea}
+                    name="emailFooter"
+                    value={form.emailFooter}
+                    onChange={event => updateForm(event.target.name, event.target.value)}
                 />
             </label>
-            <p className={styles.span}>Dodaj plik</p>
-            <input
-                ref={inputFileRef}
-                className={styles.input}
-                name="file"
-                type="file"
-                onChange={event => {
-                    setFileInput(event.target.files[0]);
-                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-                }}
-            />
-            <button
-                ref={buttonXRef}
-                className={`${styles.input} ${styles.toggleVisible}`}
-                type="button"
-                onClick={() => {
-                    inputFileRef.current.value = null;
-                    setFileInput(null);
-                    buttonXRef.current.classList.toggle(`${styles.toggleVisible}`);
-                }}>
-                X
-            </button>
-            <p className={styles.span}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
-            <div className={styles.divMailContainer}>
-                <label className={styles.label}>
-                    <span className={styles.span}>Data:</span>
-                    <input
-                        className={styles.input}
-                        type="date"
-                        name="date"
-                        onChange={event => updateForm(event.target.name, event.target.value)}
-                    />
-                </label>
-                <label className={styles.label}>
-                    <span className={styles.span}>Godzina:</span>
-                    <input
-                        className={styles.input}
-                        type="time"
-                        name="time"
-                        onChange={(event) => updateForm(event.target.name, event.target.value)}
-                    />
-                </label>
+            <div className={styles.coloredBox}>
+                <p className={styles.paragraph}>Dodaj plik</p>
+                <input
+                    ref={inputFileRef}
+                    className={styles.input}
+                    name="file"
+                    type="file"
+                    onChange={event => {
+                        setFileInput(event.target.files[0]);
+                        buttonXRef.current.classList.toggle(`${styles.toggleVisibility}`);
+                    }}
+                />
+                <button
+                    ref={buttonXRef}
+                    className={`${styles.input} ${styles.toggleVisibility}`}
+                    type="button"
+                    onClick={() => {
+                        inputFileRef.current.value = null;
+                        setFileInput(null);
+                        buttonXRef.current.classList.toggle(`${styles.toggleVisibility}`);
+                    }}>
+                    X
+                </button>
+            </div>
+            <div className={styles.coloredBox}>
+                <p className={styles.paragraph}>Jeśli nie wybierzesz daty i godziny, e-mail wyślę się natychmiast.</p>
+                <div className={styles.inputsContainer}>
+                    <label className={styles.label}>
+                        <p className={styles.paragraph}>Data:</p>
+                        <input
+                            className={styles.input}
+                            type="date"
+                            name="date"
+                            onChange={event => updateForm(event.target.name, event.target.value)}
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        <p className={styles.paragraph}>Godzina:</p>
+                        <input
+                            className={styles.input}
+                            type="time"
+                            name="time"
+                            onChange={(event) => updateForm(event.target.name, event.target.value)}
+                        />
+                    </label>
+                </div>
             </div>
             <button className={styles.button}>Wyślij mail</button>
         </form>
-    </>
+    )
 };

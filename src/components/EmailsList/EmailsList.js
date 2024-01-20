@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {apiUrl} from "../../config/api";
-import {toast} from "react-toastify";
+import {config} from "../../config/config";
 import {RotatingLines} from "react-loader-spinner";
+import {toast} from "react-toastify";
+
 import styles from "./EmailsList.module.css";
 
 export const EmailsList = ({onEmailSelect}) => {
@@ -11,36 +12,43 @@ export const EmailsList = ({onEmailSelect}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchMembers = async () => {
+
+        (async () => {
             try {
-                const res = await fetch(`${apiUrl}/api/mail/all`, {
+                const fetchMembers = await fetch(`${config.apiUrl}/api/email/all`, {
                     method: 'GET',
                 });
-                const result = await res.json();
+                const result = await fetchMembers.json();
+
+                if (result.error) {
+                    return toast.warning(result.error, {autoClose: 8000});
+                }
+
                 setMembers(result);
 
                 let initialList = {};
 
                 /* result is an array of objects */
                 result.forEach((obj) => {
-                    const [key, email] = Object.entries(obj);
-                    initialList = {...initialList, [key[1]]: {email:email[1],method: 'bcc'}};
+                    const [key, email] = Object.values(obj);
+                    initialList = {
+                        ...initialList,
+                        [key]: {
+                            email,
+                            method: config.defaultEmailSendMethod,
+                        }
+                    };
                 });
 
                 setSelectedValue(initialList);
-            } catch (error) {
-                toast.warning('Błąd ładowania książki adresów', {theme: 'colored', autoClose: 8000});
-                console.error(error);
             } finally {
                 setLoading(false);
             }
-        };
-
-        fetchMembers();
+        })();
     }, []);
 
     if (loading) {
-        return <div style={{margin: '0 calc(50% - 32px)'}}>
+        return <div style={{textAlign: 'center',}}>
             <RotatingLines
                 width='64'
                 strokeColor='#555'
@@ -72,12 +80,12 @@ export const EmailsList = ({onEmailSelect}) => {
         }
 
         setSelectedValue(newSelectedValue);
-        const { method, isChecked } = newSelectedValue[memberId];
+        const {method, isChecked} = newSelectedValue[memberId];
         onEmailSelect(email, method, isChecked);
     };
 
     return <>
-        {members.map((member) => (
+        {members.map(member => (
             <div key={member.id} className={styles.checkboxListRecord}>
                 <input
                     id={member.id}
@@ -97,4 +105,4 @@ export const EmailsList = ({onEmailSelect}) => {
             </div>
         ))}
     </>
-}
+};
