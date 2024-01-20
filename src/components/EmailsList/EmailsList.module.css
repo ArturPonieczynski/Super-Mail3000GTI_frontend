@@ -18,7 +18,6 @@
 .checkboxListRecord select {
     flex: 0.15;
     margin: 3px;
-    /*margin-right: 1%;*/
 }
 
 @media (max-width: 666px) {
