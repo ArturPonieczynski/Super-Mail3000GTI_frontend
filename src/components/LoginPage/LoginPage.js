@@ -54,7 +54,7 @@ export const LoginPage = () => {
         } catch (error) {
             return toast.error('Ups... Coś poszło nie tak ! Spróbuj ponownie za jakiś czas.');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
@@ -87,3 +87,4 @@ export const LoginPage = () => {
         </div>
     </>
 };
+
