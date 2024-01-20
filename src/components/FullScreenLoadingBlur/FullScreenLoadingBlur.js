@@ -4,20 +4,18 @@ import {RotatingLines} from "react-loader-spinner";
 export const FullScreenLoadingBlur = props => {
 
     const handleLoading = isLoading => {
-        return isLoading ? {
-            zIndex: 1,
+        return {
+            zIndex: isLoading ? 1 : undefined,
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            display: 'flex',
+            display: isLoading ? 'flex' : 'none',
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
             height: '100%',
-            backdropFilter: 'blur(5px)',
-        } : {
-            display: 'none'
+            backdropFilter: isLoading ? 'blur(5px)' : undefined,
         }
     };
 
