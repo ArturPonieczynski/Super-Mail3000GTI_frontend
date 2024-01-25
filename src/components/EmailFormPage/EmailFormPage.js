@@ -18,7 +18,7 @@ export const EmailFormPage = () => {
         emailFooter: 'Pozdrawiam\n' + config.emailFooterTemplate,
         date: '',
         time: '',
-        timeZoneOffset: '',
+        userTimeZoneOffset: new Date().getTimezoneOffset().toString(),
     });
 
     const [fileInput, setFileInput] = useState(null);
@@ -73,14 +73,6 @@ export const EmailFormPage = () => {
                 (validateEmails(form.bcc).invalidEmails)[0]
             }"`, {autoClose: false});
         } else {
-
-            const timeZone = new Date().getTimezoneOffset().toString();
-            setForm(form => {
-                return {
-                    ...form,
-                timeZoneOffset: timeZone,
-                }
-            });
 
             const formData = new FormData();
             const formEntries = Object.entries(form);
