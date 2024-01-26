@@ -1,8 +1,8 @@
 .checkboxListRecord {
     display: flex;
 }
-.checkboxListRecord:nth-child(odd) {
-    background-color: #efefef;
+.checkboxListRecord:nth-child(even) {
+    background-color: rgb(3 33 243 / 7%);
 }
 
 .checkboxListRecord input {
@@ -17,5 +17,11 @@
 
 .checkboxListRecord select {
     flex: 0.15;
-    margin-right: 1%;
+    margin: 3px;
+}
+
+@media (max-width: 666px) {
+    .emailLabel {
+        display: none;
+    }
 }
