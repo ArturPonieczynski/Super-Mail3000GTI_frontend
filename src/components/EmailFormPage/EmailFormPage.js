@@ -18,6 +18,7 @@ export const EmailFormPage = () => {
         emailFooter: 'Pozdrawiam\n' + config.emailFooterTemplate,
         date: '',
         time: '',
+        userTimeZoneOffset: new Date().getTimezoneOffset().toString(),
     });
 
     const [fileInput, setFileInput] = useState(null);
