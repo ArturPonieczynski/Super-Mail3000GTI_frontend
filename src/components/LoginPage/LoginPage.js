@@ -48,7 +48,7 @@ export const LoginPage = () => {
                 return toast.error(`${result.error}`);
             }
             if (result.ok) {
-                navigate('/mail');
+                navigate('/email');
             }
 
         } catch (error) {
