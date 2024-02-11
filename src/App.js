@@ -11,7 +11,7 @@ export function App() {
         <Routes>
             <Route path='/' element={<LoginPage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
-            <Route path='/mail' element={<EmailFormPage/>}/>
+            <Route path='/email' element={<EmailFormPage/>}/>
         </Routes>
         <Footer/>
     </>);
