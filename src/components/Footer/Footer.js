@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.css";
 
-export const Footer = () => {
+export const Footer = props => {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
@@ -10,6 +10,9 @@ export const Footer = () => {
                     https://thenounproject.com/term/super-man/2776274
                     licence:
                     https://creativecommons.org/licenses/by/3.0/
+                </p>
+                <p className={styles.footerText}>
+                    {props.children}
                 </p>
             </div>
         </footer>
