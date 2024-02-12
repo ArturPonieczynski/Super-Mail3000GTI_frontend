@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.css";
 
-export const Footer = props => {
+export const Footer = ({children}) => {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
@@ -12,7 +12,7 @@ export const Footer = props => {
                     https://creativecommons.org/licenses/by/3.0/
                 </p>
                 <p className={styles.footerText}>
-                    {props.children}
+                    {children}
                 </p>
             </div>
         </footer>
