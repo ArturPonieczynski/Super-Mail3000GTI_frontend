@@ -16,7 +16,7 @@ export const ErrorPage = () => {
                     className={styles.button}
                     onClick={() => navigate('/')}
                 >
-                    Help ME
+                    Help 🏠 ME
                 </button>
             </div>
         </div>
