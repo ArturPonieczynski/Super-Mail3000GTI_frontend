@@ -16,10 +16,12 @@ export const EmailsList = ({onEmailSelect}) => {
 
         (async () => {
             try {
-                const fetchMembers = await fetch(`${config.apiUrl}/api/email/all`, {
-                    method: 'GET',
-                    credentials: 'include',
-                });
+                const fetchMembers = await fetch(
+                    `${config.apiUrl}/api/email/all`,
+                    {
+                        method: 'GET',
+                        credentials: 'include',
+                    });
 
                 if (fetchMembers.status === 401) {
                     return showToastWithButton();
