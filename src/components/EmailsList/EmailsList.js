@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {config} from "../../config/config";
 import {RotatingLines} from "react-loader-spinner";
 import {toast} from "react-toastify";
-import {showToastWithButton} from "../../utils/CustomToastWithButton";
 
 import styles from "./EmailsList.module.css";
 
@@ -23,10 +22,6 @@ export const EmailsList = ({onEmailSelect}) => {
                         credentials: 'include',
                     });
 
-                if (fetchMembers.status === 401) {
-                    return showToastWithButton();
-                }
-
                 const result = await fetchMembers.json();
 
                 if (result.error) {
@@ -37,7 +32,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
                 let initialList = {};
 
-                /* result is an array of objects */
+                /** result is an array of objects */
                 result.forEach((obj) => {
                     const [key, email] = Object.values(obj);
                     initialList = {
