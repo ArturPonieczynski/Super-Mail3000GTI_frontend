@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import {validateEmails} from "../../utils/emailValidation";
 
 import styles from "./EmailFormPage.module.css";
+import {showToastWithButton} from "../../utils/CustomToastWithButton";
 
 export const EmailFormPage = () => {
 
@@ -98,14 +99,16 @@ export const EmailFormPage = () => {
 
                 toast.promise(sendEmailApiPromise, {
                     pending: 'Wysyłanie...',
-                    // success: 'Wiadomość wysłana !',
+                    // success: 'Wiadomość wysłana !', /** even if the sending fail, it is showing a success message */
                     error: 'Błąd podczas wysyłania wiadomości.'
                 })
 
                 const res = await sendEmailApiPromise;
                 const result = await res.json();
 
-                if (result.error) {
+                if (res.status === 401) {
+                    showToastWithButton();
+                } else if (result.error) {
                     toast.error(`${result.error}`, {autoClose: 8000});
                 } else if (result.ok) {
                     toast.success('Wiadomość wysłana !');
