@@ -5,7 +5,7 @@ import {NotFoundView} from "./views/NotFoundView";
 
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {RequireAuth} from "./utils/ReqireAuth";
+import {RequireAuth} from "./utils/RequireAuth";
 
 export function App() {
     return <>
