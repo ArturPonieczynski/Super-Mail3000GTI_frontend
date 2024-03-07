@@ -3,7 +3,6 @@ import {toast} from "react-toastify";
 import {signOut} from "../auth/authThunks";
 import {useDispatch} from "react-redux";
 
-
 const CustomToastWithButton = () => {
 
     const dispatch = useDispatch();
@@ -24,9 +23,7 @@ const CustomToastWithButton = () => {
 
 export const showToastWithButton = () => {
 
-    const toastId = toast.error(<CustomToastWithButton onClose={() => {
-        toast.dismiss(toastId);
-    }}/>, {
+    toast.error(<CustomToastWithButton />, {
         autoClose: false,
     });
 };
