@@ -95,6 +95,7 @@ export const EmailFormPage = () => {
                     //     'Content-Type': 'multipart/form-data',
                     // },
                     body: formData,
+                    credentials: "include",
                 });
 
                 toast.promise(sendEmailApiPromise, {

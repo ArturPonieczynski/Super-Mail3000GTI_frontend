@@ -1,15 +1,17 @@
 import React from "react";
 import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
+import {signOut} from "../auth/authThunks";
+import {useDispatch} from "react-redux";
 
 
 const CustomToastWithButton = () => {
 
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLoginRedirect = () => {
-        navigate('/login');
+        dispatch(signOut())
     };
+
     return (
         <div>
             Sesja wygasła, zaloguj się jeszcze raz.
@@ -21,6 +23,7 @@ const CustomToastWithButton = () => {
 };
 
 export const showToastWithButton = () => {
+
     const toastId = toast.error(<CustomToastWithButton onClose={() => {
         toast.dismiss(toastId);
     }}/>, {
