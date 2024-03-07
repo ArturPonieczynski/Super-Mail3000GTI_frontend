@@ -3,10 +3,13 @@ import {LoginPage} from "../components/LoginPage/LoginPage";
 import {Footer} from "../components/Footer/Footer";
 import {config} from "../config/config";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {loginSuccess} from "../auth/authSlice";
 
 export const LoginView = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         (async () => {
@@ -17,16 +20,18 @@ export const LoginView = () => {
                         credentials: 'include',
                     });
 
-                if (!tokenCheck) {
+                if (!tokenCheck.ok) {
                     console.error('No response received from the server.');
                 } else if (tokenCheck.ok) {
-                    return navigate('/email', {replace: true});
+                    const {user} = await tokenCheck.json();
+                    dispatch(loginSuccess(user));
+                     navigate('/email', {replace: true});
                 }
             } catch (error) {
                 console.error('An error occurred while checking the token:', error.message);
             }
         })()
-    }, [navigate]);
+    }, [navigate, dispatch]);
 
     return (
         <>
