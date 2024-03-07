@@ -40,12 +40,10 @@ export const checkAuthToken = () => async (dispatch) => {
 
         if (!response.ok) {
             dispatch(loginFailure('Sesja wygasła lub błąd autoryzacji'));
-            // Zamiast zwracać komponent Navigate, możemy wykorzystać przekierowanie w komponencie którego to tyczy
         } else {
             dispatch(loginSuccess());
         }
-        // W przeciwnym wypadku użytkownik jest już zalogowany, można wysłać akcję loginSuccess
-        // z aktualnym stanem użytkownika, jeśli masz te dane z odpowiedzi serwera
+
     } catch (error) {
         dispatch(loginFailure('Nie udało się zweryfikować sesji'));
         toast.error('Nie udało się zweryfikować sesji');
