@@ -5,6 +5,7 @@ import {NotFoundView} from "./views/NotFoundView";
 
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {RequireAuth} from "./utils/RequireAuth";
 
 export function App() {
     return <>
@@ -12,7 +13,7 @@ export function App() {
         <Routes>
             <Route path='/' element={<Navigate to='/login' replace/>}/>
             <Route path='/login' element={<LoginView/>}/>
-            <Route path='/email' element={<EmailFormView/>}/>
+            <Route path='/email' element={<RequireAuth><EmailFormView/></RequireAuth>}/>
             <Route path='/*' element={<NotFoundView/>}/>
         </Routes>
     </>

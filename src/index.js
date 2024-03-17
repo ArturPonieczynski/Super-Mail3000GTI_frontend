@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {App} from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import {store} from './store';
 import {BrowserRouter} from "react-router-dom";
 
-function sendToGoogleAnalytics({ id, name, value }) {
+function sendToGoogleAnalytics({id, name, value}) {
     window.gtag('event', name, {
         event_category: 'Web Vitals',
         value: Math.round(name === 'CLS' ? value * 1000 : value),
@@ -18,9 +20,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>
 );
 

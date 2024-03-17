@@ -15,9 +15,13 @@ export const EmailsList = ({onEmailSelect}) => {
 
         (async () => {
             try {
-                const fetchMembers = await fetch(`${config.apiUrl}/api/email/all`, {
-                    method: 'GET',
-                });
+                const fetchMembers = await fetch(
+                    `${config.apiUrl}/api/email/all`,
+                    {
+                        method: 'GET',
+                        credentials: 'include',
+                    });
+
                 const result = await fetchMembers.json();
 
                 if (result.error) {
@@ -28,7 +32,7 @@ export const EmailsList = ({onEmailSelect}) => {
 
                 let initialList = {};
 
-                /* result is an array of objects */
+                /** result is an array of objects */
                 result.forEach((obj) => {
                     const [key, email] = Object.values(obj);
                     initialList = {
