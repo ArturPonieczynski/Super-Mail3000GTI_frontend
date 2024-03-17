@@ -21,7 +21,7 @@ export const LoginView = () => {
                     });
 
                 if (!tokenCheck.ok) {
-                    console.error('No response received from the server.');
+                    console.error(tokenCheck.statusText);
                 } else if (tokenCheck.ok) {
                     const {user} = await tokenCheck.json();
                     dispatch(loginSuccess(user));
