@@ -1,6 +1,7 @@
-import React, {useState} from "react";
-import {config} from "../../config/config";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../../auth/authThunks";
 import {toast} from "react-toastify";
 import {FullScreenLoadingBlur} from "../FullScreenLoadingBlur/FullScreenLoadingBlur";
 
@@ -14,8 +15,15 @@ export const LoginPage = () => {
         password: '',
     });
     const [loading, setLoading] = useState(false);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/email');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleInputChange = event => {
         updateForm(event.target.name, event.target.value);
@@ -34,23 +42,7 @@ export const LoginPage = () => {
         setLoading(true);
 
         try {
-            const loginResponse = await fetch(`${config.apiUrl}/api/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(form),
-            });
-
-            const result = await loginResponse.json();
-
-            if (result.error) {
-                return toast.error(`${result.error}`);
-            }
-            if (result.ok) {
-                navigate('/mail');
-            }
-
+            dispatch(login(form));
         } catch (error) {
             return toast.error('Ups... Coś poszło nie tak ! Spróbuj ponownie za jakiś czas.');
         } finally {
